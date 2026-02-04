@@ -2,7 +2,17 @@ from auth.auth_service import login
 from services.medicamentos import cadastrar_medicamento, listar_medicamentos
 from services.movimentacoes import registrar_entrada, registrar_saida
 from services.controle_vencimento import verificar_medicamentos_vencidos
-
+from services.exportacao import exportar_estoque_csv
+from services.relatorios import (
+    relatorio_estoque,
+    relatorio_movimentacoes,
+    relatorio_vencidos
+)
+from services.medicamentos import (
+    cadastrar_medicamento,
+    listar_medicamentos,
+    buscar_medicamento
+)
 
 def menu():
     print("\n=== FARMÁCIA SOLIDÁRIA ===")
@@ -11,6 +21,11 @@ def menu():
     print("3 - Registrar entrada")
     print("4 - Registrar saída")
     print("5 - Verificar vencidos")
+    print("6 - Relatório de estoque")
+    print("7 - Relatório de movimentações")
+    print("8 - Relatório de vencidos")
+    print("9 - Buscar medicamento por nome")
+    print("10 - Exportar estoque para CSV")
     print("0 - Sair")
 
 
@@ -55,6 +70,33 @@ def sistema():
                 verificar_medicamentos_vencidos()
                 print("Verificação concluída.")
 
+            elif opcao == "6":
+                for r in relatorio_estoque():
+                    print(r)
+
+            elif opcao == "7":
+                for r in relatorio_movimentacoes():
+                    print(r)
+
+            elif opcao == "8":
+                for r in relatorio_vencidos():
+                    print(r)
+
+            elif opcao == "9":
+                termo = input("Digite o nome do medicamento: ")
+                resultados = buscar_medicamento(termo)
+
+                if not resultados:
+                    print("Nenhum medicamento encontrado.")
+                else:
+                    for r in resultados:
+                        print(r)
+
+            elif opcao == "10":
+                exportar_estoque_csv()
+                print("Arquivo estoque_atual.csv gerado com sucesso.")
+
+
             elif opcao == "0":
                 break
 
@@ -63,7 +105,6 @@ def sistema():
 
         except Exception as e:
             print("Erro:", e)
-
 
 def main():
     print("=== LOGIN ===")
