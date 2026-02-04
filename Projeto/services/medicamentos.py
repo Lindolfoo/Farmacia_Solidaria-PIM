@@ -5,7 +5,7 @@ def cadastrar_medicamento(nome, quantidade, validade_str, lote):
     validade = str_para_data(validade_str)
 
     if dias_para_vencer(validade) < 0:
-        return False, "Medicamento vencido"
+        return False, "Não é possível cadastrar medicamento vencido."
 
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
